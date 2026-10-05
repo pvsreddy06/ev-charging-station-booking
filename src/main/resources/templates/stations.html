@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stations | EV Station</title><link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" th:href="@{/dashboard}"><span class="brand-mark">ϟ</span><span>EV Station</span></a>
+  <nav><a th:href="@{/dashboard}">Home</a><a class="active" th:href="@{/stations}">Stations</a><a th:href="@{/bookings}">My Bookings</a></nav>
+  <div class="user-menu"><span class="avatar" th:text="${#strings.substring(session.userName,0,1)}">U</span><span th:text="${session.userName}">User</span><a class="logout" th:href="@{/logout}">Logout</a></div>
+</header>
+<main class="container page-main">
+  <div class="page-title"><div><span class="eyebrow green">CHOOSE YOUR CHARGER</span><h1>Charging stations</h1><p class="muted">Type a city name to find stations saved in the database.</p></div><span class="count-badge" th:text="|${#lists.size(stations)} stations found|">4 stations found</span></div>
+  <form class="city-search station-search" th:action="@{/stations}" method="get">
+    <div class="city-search-copy"><strong>Search by city</strong><span>Search is not case-sensitive.</span></div>
+    <div class="city-search-controls"><input type="text" name="city" th:value="${city}" placeholder="Enter city e.g. Vijayawada" aria-label="Search city"><button class="btn btn-primary" type="submit">Search</button><a class="btn btn-outline" th:href="@{/stations}">Show all</a></div>
+  </form>
+  <div class="search-summary" th:if="${city != null and !#strings.isEmpty(city)}">Showing stations matching <strong th:text="${city}">city</strong>.</div>
+  <div class="station-grid" th:if="${!#lists.isEmpty(stations)}">
+    <article class="station-card" th:each="station : ${stations}">
+      <img class="station-photo" th:src="${station.imageUrl}" th:alt="${station.name}">
+      <div class="station-content"><span class="status-pill"><i></i> Slots available</span><h3 th:text="${station.name}">Station</h3><p class="muted" th:text="${station.location}">Location</p>
+        <div class="station-meta"><span th:text="${station.connectorType}">DC CCS</span><strong th:text="|₹${station.pricePerHour}/hr|">₹25/hr</strong></div>
+        <div class="slot-info"><span>◉ <b th:text="${station.availableSlots}">4</b> slots</span><span>● Charging enabled</span></div>
+        <a class="btn btn-primary btn-full" th:href="@{/book/{id}(id=${station.id})}">Book this station →</a>
+      </div>
+    </article>
+  </div>
+  <div class="empty-state" th:if="${#lists.isEmpty(stations)}"><div class="empty-icon">⌖</div><h2>No stations found</h2><p class="muted">No station is saved for this city yet. Try another city or show all stations.</p><a class="btn btn-primary" th:href="@{/stations}">Show all stations</a></div>
+  <footer class="footer">EV Station · Cleaner energy, better journeys.</footer>
+</main>
+</body></html>

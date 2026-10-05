@@ -1,0 +1,11 @@
+com\evbooking\repository\StationRepository.class
+com\evbooking\EvChargingBookingApplication.class
+com\evbooking\model\User.class
+com\evbooking\config\AppConfig.class
+com\evbooking\controller\BookingController.class
+com\evbooking\controller\AuthController.class
+com\evbooking\model\Station.class
+com\evbooking\config\StationDataLoader.class
+com\evbooking\repository\UserRepository.class
+com\evbooking\model\Booking.class
+com\evbooking\repository\BookingRepository.class
